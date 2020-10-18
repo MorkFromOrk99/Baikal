@@ -357,11 +357,12 @@ TEST;
     }
 
     static function parseTemplateCode($sCode, $aMarkers) {
+        $tplName = md5($sCode);
+        $loader = new \Twig\Loader\ArrayLoader([$tplName => $sCode]);
+        $env = new \Twig\Environment($loader);
+        $env->setCache(false);
 
-        $loader = new \Twig_Loader_String();
-        $twig = new \Twig_Environment($loader);
-
-        return $twig->render($sCode, $aMarkers);
+        return $env->render($tplName, $aMarkers);
     }
 
 
